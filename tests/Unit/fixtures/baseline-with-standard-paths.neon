@@ -1,0 +1,11 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),Juampi92\\\\Phecks\\\\Domain\\\\Violations\\\\Violation\\>\\:\\:map\\(\\) expects callable\\(Juampi92\\\\Phecks\\\\Domain\\\\Violations\\\\Violation, \\(int\\|string\\)\\)\\: array\\<int\\>, Closure\\(Illuminate\\\\Support\\\\Collection\\)\\: array\\<int\\> given\\.$#"
+			count: 2
+			path: src/Application/Baseline/BaselineCollection.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),Juampi92\\\\Phecks\\\\Domain\\\\Violations\\\\Violation\\>\\:\\:each\\(\\) expects callable\\(Juampi92\\\\Phecks\\\\Domain\\\\Violations\\\\Violation, \\(int\\|string\\)\\)\\: mixed, Closure\\(Juampi92\\\\Phecks\\\\Domain\\\\Violations\\\\ViolationsCollection, string\\)\\: void given\\.$#"
+			count: 1
+			path: src/Application/Formatters/ConsoleFormatter.php

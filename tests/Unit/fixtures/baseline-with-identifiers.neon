@@ -1,0 +1,13 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method Juampi92\\PhpstanBaselineWarnings\\Domain\\ValueObject\\BaselineError\:\:getCount\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/BaselineWarningsCommand.php
+
+		-
+			message: '#^Call to an undefined method Juampi92\\PhpstanBaselineWarnings\\Domain\\ValueObject\\BaselineError\:\:getIdentifier\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/BaselineWarningsCommand.php
