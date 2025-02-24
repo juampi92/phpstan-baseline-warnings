@@ -1,0 +1,36 @@
+name: 'PHPStan Baseline Warnings'
+description: 'Generate GitHub-compatible warning annotations from PHPStan baseline files'
+author: 'juampi92'
+
+inputs:
+  baseline-path:
+    description: 'Path to the PHPStan baseline file'
+    required: true
+    default: 'phpstan-baseline.neon'
+  base-dir:
+    description: 'Base directory for PHPStan'
+    required: true
+    default: './'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Get changed PHP files
+      shell: bash
+      run: |
+        if [ $GITHUB_EVENT_NAME != 'pull_request' ]; then
+          echo "This action only runs on pull requests"
+          exit 1
+        fi
+        
+        files=$(gh api repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files --jq '.[].filename' | grep '\.php$' || true)
+        echo "Changed PHP files: $files"
+        echo "files=$files" >> $GITHUB_ENV
+
+    - name: Run PHPStan Baseline Warnings
+      shell: bash
+      run: phpstan-baseline-warnings --baseline-path="${{ inputs.baseline-path }}" --base-dir="${{ inputs.base-dir }}" $files
+
+branding:
+  icon: 'alert-triangle'
+  color: 'yellow'
