@@ -15,17 +15,22 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Configure git
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
     - name: Get changed PHP files
+      id: changed-files
+      uses: tj-actions/changed-files@v40
+      with:
+        files: |
+          **/*.php
+
+    - name: Set files env
       shell: bash
       run: |
-        if [ $GITHUB_EVENT_NAME != 'pull_request' ]; then
-          echo "This action only runs on pull requests"
-          exit 1
-        fi
-        
-        files=$(gh api repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files --jq '.[].filename' | grep '\.php$' || true)
-        echo "Changed PHP files: $files"
-        echo "files=$files" >> $GITHUB_ENV
+        echo "files=${{ steps.changed-files.outputs.all_changed_files }}" >> $GITHUB_ENV
 
     - name: Run PHPStan Baseline Warnings
       shell: bash
