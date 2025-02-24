@@ -20,6 +20,12 @@ runs:
       with:
         fetch-depth: 0
 
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        coverage: none
+
     - name: Get changed PHP files
       id: changed-files
       uses: tj-actions/changed-files@v40
@@ -27,14 +33,26 @@ runs:
         files: |
           **/*.php
 
-    - name: Set files env
+    - name: Create isolated environment
       shell: bash
       run: |
-        echo "files=${{ steps.changed-files.outputs.all_changed_files }}" >> $GITHUB_ENV
+        # Create a temporary directory for our action
+        mkdir -p /tmp/phpstan-warnings-action
+        cd /tmp/phpstan-warnings-action
+        
+        # Initialize a new composer project
+        composer init --name=action/phpstan-warnings --type=project --no-interaction
+        
+        # Add our package as the only requirement
+        composer require juampi92/phpstan-baseline-warnings
 
     - name: Run PHPStan Baseline Warnings
       shell: bash
-      run: phpstan-baseline-warnings --baseline-path="${{ inputs.baseline-path }}" --base-dir="${{ inputs.base-dir }}" $files
+      run: |
+        /tmp/phpstan-warnings-action/vendor/bin/phpstan-baseline-warnings \
+          --baseline-path="${{ inputs.baseline-path }}" \
+          --base-dir="${{ inputs.base-dir }}" \
+          ${{ steps.changed-files.outputs.all_changed_files }}
 
 branding:
   icon: 'alert-triangle'
