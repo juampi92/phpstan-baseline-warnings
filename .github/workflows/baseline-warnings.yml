@@ -2,9 +2,6 @@ name: PHPStan Baseline Warnings
 
 on:
   pull_request:
-    paths:
-      - '**.php'
-      - 'phpstan-baseline.neon'
 
 jobs:
   baseline-warnings:
@@ -26,7 +23,7 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Run PHPStan Baseline Warnings
-        uses: juampi92/phpstan-baseline-warnings@v0.1
+        uses: juampi92/phpstan-baseline-warnings@v0.2
         with:
           baseline-path: phpstan-baseline.neon
           base-dir: ./
