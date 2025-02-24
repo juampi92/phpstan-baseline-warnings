@@ -6,14 +6,13 @@ namespace Juampi92\PhpstanBaselineWarnings\Domain\ValueObject;
 
 final class FileWarnings
 {
-    /** @var array<array-key, BaselineWarning> */
-    private array $warnings;
-
+    /**
+     * @param  array<array-key, BaselineWarning>  $warnings
+     */
     public function __construct(
-        public readonly string $file
-    ) {
-        $this->warnings = [];
-    }
+        public readonly string $file,
+        private array $warnings = [],
+    ) {}
 
     public function addWarning(BaselineWarning $error): void
     {
@@ -22,7 +21,7 @@ final class FileWarnings
 
     public function hasWarnings(): bool
     {
-        return !empty($this->warnings);
+        return ! empty($this->warnings);
     }
 
     /**

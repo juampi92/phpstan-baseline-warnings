@@ -6,11 +6,11 @@
     "autoload": {
         "psr-4": {
             "Juampi92\\PhpstanBaselineWarnings\\": "src/"
-        },
-        "autoload-dev": {
-            "psr-4": {
-                "Juampi92\\PhpstanBaselineWarnings\\Tests\\": "tests/"
-            }
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
         }
     },
     "authors": [
@@ -27,11 +27,12 @@
         "symfony/console": "^7.2"
     },
     "require-dev": {
+        "laravel/pint": "^1.21",
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^12.0"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit --colors=always",
+        "test": "vendor/bin/phpunit --colors=always --testdox",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
         "phpstan": "./vendor/bin/phpstan analyze -c phpstan.neon.dist --memory-limit 1G"
     },

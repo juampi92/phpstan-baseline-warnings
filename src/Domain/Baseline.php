@@ -8,15 +8,14 @@ use Nette\Neon\Neon;
 class Baseline
 {
     /**
-     * @param string $content NEON formatted content
-     * @param string|null $baseDir Optional base directory for path normalization
+     * @param  string  $content  NEON formatted content
+     * @param  string|null  $baseDir  Optional base directory for path normalization
      * @return array<BaselineWarning>
      */
     public function parse(
         string $content,
         ?string $baseDir = null,
-    ): array
-    {
+    ): array {
         $neon = Neon::decode($content);
 
         return array_map(
@@ -58,7 +57,7 @@ class Baseline
     private function removeBaseDir(string $path, string $baseDir): string
     {
         // Ensure baseDir has trailing slash for proper matching
-        $baseDir = rtrim($baseDir, '/') . '/';
+        $baseDir = rtrim($baseDir, '/').'/';
 
         // If path starts with baseDir, remove it
         if (str_starts_with($path, $baseDir)) {

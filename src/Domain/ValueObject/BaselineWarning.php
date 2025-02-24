@@ -8,7 +8,6 @@ class BaselineWarning
         public readonly string $message,
         public readonly int $count,
         public readonly string $path,
-        public readonly string|null $identifier = null,
-    ) {
-    }
+        public readonly ?string $identifier = null,
+    ) {}
 }

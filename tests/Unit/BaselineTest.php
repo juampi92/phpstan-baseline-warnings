@@ -1,6 +1,6 @@
 <?php
 
-namespace Juampi92\PhpstanBaselineWarnings\Tests\Unit;
+namespace Tests\Unit;
 
 use Juampi92\PhpstanBaselineWarnings\Domain\Baseline;
 use PHPUnit\Framework\TestCase;
@@ -10,11 +10,11 @@ class BaselineTest extends TestCase
     public function test_it_can_parse_baseline_with_standard_paths(): void
     {
         // Arrange
-        $content = file_get_contents(__DIR__ . '/fixtures/baseline-with-standard-paths.neon');
+        $content = file_get_contents(__DIR__.'/fixtures/baseline-with-standard-paths.neon');
 
         // Act
-        $baseline = new Baseline();
-        $warnings = $baseline->parse($content);
+        $baseline = new Baseline;
+        $warnings = $baseline->parse($content, baseDir: './');
 
         // Assert
         $this->assertCount(2, $warnings);
@@ -27,10 +27,10 @@ class BaselineTest extends TestCase
     public function test_it_can_parse_baseline_with_relative_paths(): void
     {
         // Arrange
-        $content = file_get_contents(__DIR__ . '/fixtures/baseline-with-relative-paths.neon');
+        $content = file_get_contents(__DIR__.'/fixtures/baseline-with-relative-paths.neon');
 
         // Act
-        $baseline = new Baseline();
+        $baseline = new Baseline;
         $warnings = $baseline->parse($content, baseDir: '../../');
 
         // Assert
@@ -47,10 +47,10 @@ class BaselineTest extends TestCase
     public function test_it_works_with_idenfifiers(): void
     {
         // Arrange
-        $content = file_get_contents(__DIR__ . '/fixtures/baseline-with-identifiers.neon');
+        $content = file_get_contents(__DIR__.'/fixtures/baseline-with-identifiers.neon');
 
         // Act
-        $baseline = new Baseline();
+        $baseline = new Baseline;
         $warnings = $baseline->parse($content);
 
         // Assert

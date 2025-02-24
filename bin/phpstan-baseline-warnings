@@ -3,21 +3,18 @@
 
 declare(strict_types=1);
 
-if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-    require __DIR__ . '/../vendor/autoload.php';
-} elseif (file_exists(__DIR__ . '/../../../autoload.php')) {
+use Juampi92\PhpstanBaselineWarnings\Application\Command\BaselineWarningsCommand;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+
+if (file_exists(__DIR__ . '/../../../autoload.php')) {
     require __DIR__ . '/../../../autoload.php';
 } else {
-    fwrite(STDERR, 'Install dependencies using Composer' . PHP_EOL);
-    exit(1);
+    require __DIR__ . '/../vendor/autoload.php';
 }
 
-use Juampi92\PhpstanBaselineWarnings\BaselineWarningsCommand;
-use Symfony\Component\Console\Application;
+$container = require __DIR__ . '/../src/Config/container.php';
 
-$application = new Application('phpstan-baseline-warnings', '1.0.0');
-$command = new BaselineWarningsCommand();
-
-$application->add($command);
-$application->setDefaultCommand($command->getName(), true);
-$application->run();
+/** @var BaselineWarningsCommand $command */
+$command = $container->get(BaselineWarningsCommand::class);
+$command->run(new ArgvInput(), new ConsoleOutput());
