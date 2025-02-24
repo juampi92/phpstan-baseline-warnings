@@ -1,0 +1,32 @@
+name: PHPStan Baseline Warnings
+
+on:
+  pull_request:
+    paths:
+      - '**.php'
+      - 'phpstan-baseline.neon'
+
+jobs:
+  baseline-warnings:
+    runs-on: ubuntu-latest
+    name: Check PHPStan baseline warnings
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run PHPStan Baseline Warnings
+        uses: juampi92/phpstan-baseline-warnings@v0.1
+        with:
+          baseline-path: phpstan-baseline.neon
+          base-dir: ./
