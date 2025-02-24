@@ -72,14 +72,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Required to fetch git history
-          
+
       - name: PHPStan Baseline Warnings
         uses: juampi92/phpstan-baseline-warnings@v1
         with:
-          baseline-path: tools/phpstan-baseline.neon
-          base-dir: ../
+          baseline-path: ./phpstan-baseline.neon
+          base-dir: ./
 ```
 
 This will analyze your PHPStan baseline file and create warning annotations in your GitHub repository.
