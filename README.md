@@ -9,11 +9,11 @@
 
 **TL;DR:** Compare your PR's changed files with your PHPStan baseline, and let developers know they modified a file that has skipped errors, prompting them to fix them!
 
-```bash
+```
 $ vendor/bin/phpstan-baseline-warnings src/Foo.php src/Bar.php src/Baz.php
 
-::warning file=src/Foo.php,line=0,title=param.missingType::Found 2 occurrences of this error skipped in the baseline.
-::warning file=src/Baz.php,line=0,title=param.missingType::Found 1 occurrences of this error skipped in the baseline.
+::warning file=src/Foo.php,line=0,title=Found 3 errors that occur a total of 6 times:%0A- `#^Property Juampi92\\PhpstanBaselineWarnings\\Domain\\BaselineParser\:\:\$storage is never read, only written\.$#` : 3 times%0A- `#^Unsafe usage of new static\(\)\.$#` : 2 times
+::warning file=src/Baz.php,line=0,title=Found 1 errors that occur a total of 2 times:%0A- `#^Unsafe usage of new static\(\)\.$#` : 2 times
 ```
 
 It also comes avaialble as a [github action](#github-action)!
