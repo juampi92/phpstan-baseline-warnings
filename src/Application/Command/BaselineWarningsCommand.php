@@ -72,6 +72,12 @@ final class BaselineWarningsCommand extends Command
 
         $correlatedWarnings = $this->baselineWarningsCorrelator->correlate($warnings, $filesToCheck);
 
+        if (count($correlatedWarnings) === 0) {
+            // No warnings found.
+
+            return Command::SUCCESS;
+        }
+
         $this->warningsOutputFormatter->output($correlatedWarnings, $format, $output);
 
         return Command::SUCCESS;

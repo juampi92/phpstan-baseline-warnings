@@ -3,15 +3,26 @@
 <p align="center">
     <a href="https://packagist.org/packages/juampi92/phpstan-baseline-warnings"><img src="https://img.shields.io/packagist/v/juampi92/phpstan-baseline-warnings.svg?style=flat-square" alt="Latest Version on Packagist"></a>
     <a href="https://packagist.org/packages/juampi92/phpstan-baseline-warnings"><img src="https://img.shields.io/packagist/dm/juampi92/phpstan-baseline-warnings.svg?style=flat-square" alt="Downloads Per Month"></a>
-    <a href="https://github.com/juampi92/phpstan-baseline-warnings/actions?query=workflow%3Atests+branch%3Amain"><img src="https://img.shields.io/github/workflow/status/juampi92/phpstan-baseline-warnings/tests?label=tests&style=flat-square" alt="GitHub Tests Action Status"></a>
+    <a href="https://github.com/juampi92/phpstan-baseline-warnings/actions?query=workflow%3Atests+branch%3Amain"><img src="https://img.shields.io/github/actions/workflow/status/juampi92/phpstan-baseline-warnings/tests.yml?branch=main" alt="GitHub Tests Action Status"></a>
     <a href="https://packagist.org/packages/juampi92/phpstan-baseline-warnings"><img src="https://img.shields.io/packagist/php-v/juampi92/phpstan-baseline-warnings.svg?style=flat-square" alt="PHP from Packagist"></a>
 </p>
 
-A Composer package that analyzes **PHPStan baseline** files and generates GitHub PR warning annotations for files with baseline-ignored errors. This helps teams maintain code quality by highlighting technical debt that's been temporarily suppressed through baselines whenever that file is modified.
+**TL;DR:** Compare your PR's changed files with your PHPStan baseline, and let developers know they modified a file that has skipped errors, prompting them to fix them!
+
+```bash
+$ vendor/bin/phpstan-baseline-warnings src/Foo.php src/Bar.php src/Baz.php
+
+::warning file=src/Foo.php,line=0,title=param.missingType::Found 2 occurrences of this error skipped in the baseline.
+::warning file=src/Baz.php,line=0,title=param.missingType::Found 1 occurrences of this error skipped in the baseline.
+```
+
+It also comes avaialble as a [github action](#github-action)!
 
 <p align="center">
     <img src="docs/images/example.png" alt="Example of a PR with warnings">
 </p>
+
+A Composer package that analyzes PHPStan baseline files and generates GitHub PR warning annotations for files with baseline-ignored errors. This helps teams maintain code quality by highlighting technical debt that's been temporarily suppressed through baselines whenever that file is modified.
 
 ## Installation
 
@@ -63,7 +74,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: PHPStan Baseline Warnings
-        uses: juampi92/phpstan-baseline-warnings@v1
+        uses: juampi92/phpstan-baseline-warnings@v0.4
         with:
           baseline-path: ./phpstan-baseline.neon
           base-dir: ./

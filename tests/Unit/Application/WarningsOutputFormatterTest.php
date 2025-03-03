@@ -46,12 +46,7 @@ final class WarningsOutputFormatterTest extends TestCase
         $this->formatter->output($warnings, 'github', $this->output);
 
         // Assert
-        $expected = implode("\n", [
-            '::warning file=src/Example.php,line=0,title=MissingReturnType::Found 2 occurrences of this error skipped in the baseline.',
-            '::warning file=src/Example.php,line=0,title=MissingParamType::Found 1 occurrences of this error skipped in the baseline.',
-            '',
-        ]);
-
+        $expected = '::warning file=src/Example.php,line=0,title=PHPStan baselined errors::Found 2 errors that occur a total of 3 times:%0A- `MissingReturnType` : 2 times%0A- `MissingParamType` : 1 times'."\n";
         $this->assertEquals($expected, $this->output->fetch());
     }
 
@@ -73,7 +68,57 @@ final class WarningsOutputFormatterTest extends TestCase
         $this->formatter->output($warnings, 'github', $this->output);
 
         // Assert
-        $expected = "::warning file=src/Example.php,line=0,title=Some error without identifier::Found 1 occurrences of this error skipped in the baseline.\n";
+        $expected = '::warning file=src/Example.php,line=0,title=PHPStan baselined errors::Found 1 errors that occur a total of 1 times:%0A- `Some error without identifier` : 1 times'."\n";
+        $this->assertEquals($expected, $this->output->fetch());
+    }
+
+    public function test_github_format_truncates_when_more_than_three_errors(): void
+    {
+        // Arrange
+        $warnings = [
+            new FileWarnings('src/Example.php', [
+                new BaselineWarning(
+                    message: 'First error',
+                    count: 5,
+                    path: 'src/Example.php',
+                    identifier: 'First'
+                ),
+                new BaselineWarning(
+                    message: 'Second error',
+                    count: 3,
+                    path: 'src/Example.php',
+                    identifier: 'Second'
+                ),
+                new BaselineWarning(
+                    message: 'Third error',
+                    count: 2,
+                    path: 'src/Example.php',
+                    identifier: 'Third'
+                ),
+                new BaselineWarning(
+                    message: 'Fourth error',
+                    count: 1,
+                    path: 'src/Example.php',
+                    identifier: 'Fourth'
+                ),
+            ]),
+            new FileWarnings('src/ExampleTwo.php', [
+                new BaselineWarning(
+                    message: 'First and only error for ExampleTwo',
+                    count: 2,
+                    path: 'src/ExampleTwo.php',
+                ),
+            ]),
+        ];
+
+        // Act
+        $this->formatter->output($warnings, 'github', $this->output);
+
+        // Assert
+        $expected =
+            '::warning file=src/Example.php,line=0,title=PHPStan baselined errors::Found 4 errors that occur a total of 11 times:%0A- `First` : 5 times%0A- `Second` : 3 times%0A...2 more'."\n"
+            .'::warning file=src/ExampleTwo.php,line=0,title=PHPStan baselined errors::Found 1 errors that occur a total of 2 times:%0A- `First and only error for ExampleTwo` : 2 times'."\n";
+
         $this->assertEquals($expected, $this->output->fetch());
     }
 }
