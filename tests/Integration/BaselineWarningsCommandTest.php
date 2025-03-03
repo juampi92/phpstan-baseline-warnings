@@ -54,7 +54,7 @@ NEON;
 
         $this->assertSame(0, $statusCode);
         $this->assertStringContainsString('app/Service/Example.php', $output);
-        $this->assertStringContainsString('Method App\\\\Service\\\\Example::doSomething\(\)', $output);
+        $this->assertStringContainsString('Method App\\\\Service\\\\Example: :doSomething\(\)', $output); // The space is included because it's gh formatting.
     }
 
     public function test_command_fails_with_invalid_baseline_path(): void
