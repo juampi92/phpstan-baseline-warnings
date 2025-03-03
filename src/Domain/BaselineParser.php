@@ -6,6 +6,11 @@ namespace Juampi92\PhpstanBaselineWarnings\Domain;
 
 use Juampi92\PhpstanBaselineWarnings\Domain\ValueObject\BaselineWarning;
 
+/**
+ * BaselineParser is responsible for parsing PHPStan baseline files and extracting error information.
+ * It handles both standard and identifier-based baseline entries, converting them into BaselineWarning objects.
+ * The parser supports relative and absolute file paths, and can normalize them using an optional base directory.
+ */
 final class BaselineParser
 {
     public function __construct(

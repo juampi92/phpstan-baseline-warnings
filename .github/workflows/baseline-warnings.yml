@@ -1,0 +1,18 @@
+name: PHPStan Baseline Warnings
+
+on:
+  pull_request:
+
+jobs:
+  baseline-warnings:
+    runs-on: ubuntu-latest
+    name: Check PHPStan baseline warnings
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run PHPStan Baseline Warnings
+        uses: juampi92/phpstan-baseline-warnings@v0.4
+        with:
+          baseline-path: phpstan-baseline.neon
